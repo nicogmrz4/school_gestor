@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/var
+  db:
+    image: mysql:8
+    environment:
+      - MYSQL_DATABASE=school_gestor
+      - MYSQL_ROOT_PASSWORD=123
+    volumes:
+      - school_gestor_db:/var/lib/mysql
+    ports:
+      - 3006
+  adminer:
+    image: adminer
+    ports:
+    - 8080:8080
+volumes:
+  school_gestor_db:
