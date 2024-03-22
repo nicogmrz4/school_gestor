@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -31,6 +32,16 @@ class UserCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             TextField::new('username'),
         ];
+
+        $roles = ChoiceField::new('roles')
+            ->allowMultipleChoices()
+            ->autocomplete()
+            ->setChoices([
+                'Admin' => 'ROLE_ADMIN',
+                'Teacher' => 'ROLE_TEACHER',
+            ]);
+
+        $fields[] = $roles;
 
         $password = TextField::new('password')
             ->setFormType(RepeatedType::class)
