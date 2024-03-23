@@ -2,7 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Course;
 use App\Entity\Student;
+use App\Entity\Subjet;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -48,5 +50,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Users', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Students', 'fas fa-list', Student::class);
+        yield MenuItem::linkToCrud('Courses', 'fas fa-list', Course::class);
+        yield MenuItem::linkToCrud('Subjets', 'fas fa-list', Subjet::class);
     }
 }

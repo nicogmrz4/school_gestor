@@ -6,6 +6,8 @@ use App\Entity\Student;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -17,17 +19,20 @@ class StudentCrudController extends AbstractCrudController
         return Student::class;
     }
 
-    /*
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+        $fields = [
+            IdField::new('id')->hideOnForm(),
+            TextField::new('firstName'),
+            TextField::new('lastName'),
+            TextField::new('phoneNumber'),
+            TextField::new('alternativePhoneNumber'),
+            EmailField::new('email'),
+            AssociationField::new('course'),
         ];
-    }
-    */
 
+        return $fields;
+    }
     public function configureActions(Actions $actions): Actions
     {
         return $actions
