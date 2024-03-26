@@ -1,0 +1,6 @@
+{% if field.getValue() == 'present' %}
+    <span class="badge text-bg-success">{{ field.getValue()  }}</span>
+{% else %}
+    <span class="badge text-bg-danger">{{ field.getValue()  }}</span>
+{% endif %}
+

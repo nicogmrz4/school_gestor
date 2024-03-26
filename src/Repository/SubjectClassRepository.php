@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Subjet;
+use App\Entity\SubjectClass;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Subjet>
+ * @extends ServiceEntityRepository<SubjectClass>
  *
- * @method Subjet|null find($id, $lockMode = null, $lockVersion = null)
- * @method Subjet|null findOneBy(array $criteria, array $orderBy = null)
- * @method Subjet[]    findAll()
- * @method Subjet[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method SubjectClass|null find($id, $lockMode = null, $lockVersion = null)
+ * @method SubjectClass|null findOneBy(array $criteria, array $orderBy = null)
+ * @method SubjectClass[]    findAll()
+ * @method SubjectClass[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SubjetRepository extends ServiceEntityRepository
+class SubjectClassRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Subjet::class);
+        parent::__construct($registry, SubjectClass::class);
     }
 
     //    /**
-    //     * @return Subjet[] Returns an array of Subjet objects
+    //     * @return SubjetClass[] Returns an array of SubjetClass objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -36,7 +36,7 @@ class SubjetRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Subjet
+    //    public function findOneBySomeField($value): ?SubjetClass
     //    {
     //        return $this->createQueryBuilder('s')
     //            ->andWhere('s.exampleField = :val')

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StudentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
@@ -30,6 +32,14 @@ class Student
 
     #[ORM\ManyToOne(inversedBy: 'students')]
     private ?Course $course = null;
+
+    #[ORM\OneToMany(targetEntity: ClassAttendance::class, mappedBy: 'student', orphanRemoval: true)]
+    private Collection $classAttendances;
+
+    public function __construct()
+    {
+        $this->classAttendances = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +114,36 @@ class Student
     public function setCourse(?Course $course): static
     {
         $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ClassAttendance>
+     */
+    public function getClassAttendances(): Collection
+    {
+        return $this->classAttendances;
+    }
+
+    public function addClassAttendance(ClassAttendance $classAttendance): static
+    {
+        if (!$this->classAttendances->contains($classAttendance)) {
+            $this->classAttendances->add($classAttendance);
+            $classAttendance->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClassAttendance(ClassAttendance $classAttendance): static
+    {
+        if ($this->classAttendances->removeElement($classAttendance)) {
+            // set the owning side to null (unless already changed)
+            if ($classAttendance->getStudent() === $this) {
+                $classAttendance->setStudent(null);
+            }
+        }
 
         return $this;
     }

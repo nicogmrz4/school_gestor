@@ -18,15 +18,15 @@ class Course
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: Subjet::class, mappedBy: 'course')]
-    private Collection $subjets;
+    #[ORM\OneToMany(targetEntity: Subject::class, mappedBy: 'course')]
+    private Collection $subjects;
 
     #[ORM\OneToMany(targetEntity: Student::class, mappedBy: 'course')]
     private Collection $students;
 
     public function __construct()
     {
-        $this->subjets = new ArrayCollection();
+        $this->subjects = new ArrayCollection();
         $this->students = new ArrayCollection();
     }
 
@@ -53,29 +53,29 @@ class Course
     }
 
     /**
-     * @return Collection<int, Subjet>
+     * @return Collection<int, Subject>
      */
-    public function getSubjets(): Collection
+    public function getSubjects(): Collection
     {
-        return $this->subjets;
+        return $this->subjects;
     }
 
-    public function addSubjet(Subjet $subjet): static
+    public function addSubject(Subject $subject): static
     {
-        if (!$this->subjets->contains($subjet)) {
-            $this->subjets->add($subjet);
-            $subjet->setCourse($this);
+        if (!$this->subjects->contains($subject)) {
+            $this->subjects->add($subject);
+            $subject->setCourse($this);
         }
 
         return $this;
     }
 
-    public function removeSubjet(Subjet $subjet): static
+    public function removeSubject(Subject $subject): static
     {
-        if ($this->subjets->removeElement($subjet)) {
+        if ($this->subjects->removeElement($subject)) {
             // set the owning side to null (unless already changed)
-            if ($subjet->getCourse() === $this) {
-                $subjet->setCourse(null);
+            if ($subject->getCourse() === $this) {
+                $subject->setCourse(null);
             }
         }
 
