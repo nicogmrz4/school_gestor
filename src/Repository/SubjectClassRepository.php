@@ -38,6 +38,24 @@ class SubjectClassRepository extends ServiceEntityRepository
             ->orderBy('totalPresents', 'DESC')
             ->getQuery()
             ->getResult();
+    }    
+    
+    public function totalPresentPerStudentByCourse(int $courseId) 
+    {
+        return $this->createQueryBuilder('sc')
+            ->select("sum(case when ca.status = 'present' then 1 else 0 end) as totalPresents")
+            ->addSelect("st.id, st.firstName, st.lastName")
+            ->join('sc.classAttendances', 'ca')
+            ->join('sc.subject', 's')
+            ->join('s.course', 'c')
+            ->join('c.students', 'st')
+            ->where('ca.student = st')
+            ->andWhere('s.course = :courseId')
+            ->setParameter(':courseId', $courseId)
+            ->groupBy('st.id')
+            ->orderBy('totalPresents', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     public function totalSubjectClasses(int $subjectId)
@@ -46,6 +64,19 @@ class SubjectClassRepository extends ServiceEntityRepository
             ->select('count(sc.id) as totalClasses')
             ->where('sc.subject = :subjectId')
             ->setParameter('subjectId', $subjectId)
+            ->getQuery()
+            ->getResult(Query::HYDRATE_SINGLE_SCALAR);
+    }
+
+
+
+    public function totalCourseClasses($courseId)
+    {
+        return $this->createQueryBuilder('sc')
+            ->select('count(sc.id) as totalClasses')
+            ->join('sc.subject', 's')
+            ->where('s.course = :courseId')
+            ->setParameter('courseId', $courseId)
             ->getQuery()
             ->getResult(Query::HYDRATE_SINGLE_SCALAR);
     }

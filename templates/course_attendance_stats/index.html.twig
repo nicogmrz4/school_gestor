@@ -1,0 +1,47 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}The Title of the Page
+{% endblock %}
+{% block page_actions %}
+	<a class="btn btn-primary" href="...">Some Action</a>
+{% endblock %}
+
+{% block main %}
+	<table class="datagrid">
+		<thead>
+			<tr>
+				{% for column, value in columns %}
+					{% if column == sort %}
+						<th class="searchable sorted header-for-field-text text-" data-column="id" dir="ltr">
+							<a href="{{ ea_url().setRoute('app_course_attendance_stats', { 
+									sort: column, 
+									order: order == 'DESC' ? 'ASC' : 'DESC', 
+									courseId: courseId 
+								}) }}">
+								{{ value }}
+								<i class="fa fa-fw fa-sort"></i>
+							</a>
+						</th>
+					{% else %}
+						<th class="searchable  header-for-field-text text-" data-column="id" dir="ltr">
+							<a href="{{ ea_url().setRoute('app_course_attendance_stats', { sort: column, order: 'DESC', courseId: courseId }) }}">
+								{{ value }}
+								<i class="fa fa-fw fa-sort"></i>
+							</a>
+						</th>
+					{% endif %}
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			{% for x in data %}
+				<tr>
+					<td>{{ x.id }}</td>
+					<td>{{ x.firstName }}</td>
+					<td>{{ x.lastName }}</td>
+					<td>{{ x.presentAvg }}%</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
