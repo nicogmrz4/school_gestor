@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\SubjectClass;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,28 +22,31 @@ class SubjectClassRepository extends ServiceEntityRepository
         parent::__construct($registry, SubjectClass::class);
     }
 
-    //    /**
-    //     * @return SubjetClass[] Returns an array of SubjetClass objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function totalPresentPerStudentBySubject(int $subjectId) 
+    {
+        return $this->createQueryBuilder('sc')
+            ->select("sum(case when ca.status = 'present' then 1 else 0 end) as totalPresents")
+            ->addSelect("st.id, st.firstName, st.lastName")
+            ->join('sc.classAttendances', 'ca')
+            ->join('sc.subject', 's')
+            ->join('s.course', 'c')
+            ->join('c.students', 'st')
+            ->where('ca.student = st')
+            ->andWhere('sc.subject = :subjectId')
+            ->setParameter(':subjectId', $subjectId)
+            ->groupBy('st.id')
+            ->orderBy('totalPresents', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?SubjetClass
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function totalSubjectClasses(int $subjectId)
+    {
+        return $this->createQueryBuilder('sc')
+            ->select('count(sc.id) as totalClasses')
+            ->where('sc.subject = :subjectId')
+            ->setParameter('subjectId', $subjectId)
+            ->getQuery()
+            ->getResult(Query::HYDRATE_SINGLE_SCALAR);
+    }
 }

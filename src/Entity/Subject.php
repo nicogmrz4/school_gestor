@@ -34,7 +34,7 @@ class Subject
 
     public function __toString()
     {
-        return sprintf("%s - %s", $this->name, $this->teacher->getUsername());
+        return $this->name;
     }
 
     public function getId(): ?int
