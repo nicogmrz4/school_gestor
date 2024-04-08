@@ -7,6 +7,7 @@ use App\Entity\Student;
 use App\Entity\Subject;
 use App\Entity\SubjectClass;
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -44,6 +45,15 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('Html');
+    }
+
+    public function configureAssets(): Assets
+    {
+        $assets = parent::configureAssets();
+
+        $assets->addAssetMapperEntry('app');
+
+        return $assets;
     }
 
     public function configureMenuItems(): iterable
