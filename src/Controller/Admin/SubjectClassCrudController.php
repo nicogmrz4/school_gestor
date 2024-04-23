@@ -64,6 +64,7 @@ class SubjectClassCrudController extends AbstractCrudController
         $attendanceControl = Action::new('attendanceControl')
             ->linkToUrl(function (SubjectClass $entity) {
                 $classAttendanceCrudUrl = $this->adminUrlGenerator
+                    ->unsetAll()
                     ->setController(ClassAttendanceCrudController::class)
                     ->set('subjectClassId', $entity->getId())
                     ->generateUrl();
