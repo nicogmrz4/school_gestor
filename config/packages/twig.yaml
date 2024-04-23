@@ -1,5 +1,6 @@
 twig:
     file_name_pattern: '*.twig'
+    form_themes: ['@EasyAdmin/crud/form_theme.html.twig']
 
 when@test:
     twig:
