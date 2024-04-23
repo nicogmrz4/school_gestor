@@ -1,0 +1,40 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+{% block head_stylesheets %}
+    <link rel="stylesheet" href="{{ asset('app.css', ea.assets.defaultAssetPackageName) }}">
+{% endblock %}
+
+{% block content_title %}Subject Attendance Stats{% endblock %}
+
+{% block page_actions %}
+    {# <a class="btn btn-primary" href="...">Some Action</a> #}
+{% endblock %}
+
+{% block main %}
+    <div class="subject-attendance-stats__container mb-4">
+        <div class="chart__container">
+            {{ form(form) }}
+            <script src="{{ asset('scripts/courseAttendanceStatsFilters.js')}}"></script>
+            {{ render_chart(chart) }}
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+        {% for stat in stats %}
+            <div class="card" style="width: 14rem;">
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ stat.subject.name }}</h5>
+                    <div class="d-flex">
+                        <div>
+                            <p class="text-center fs-5 mb-1">{{ stat.getTotalClasses() }}</p>       
+                            <p class="text-secondary text-center d-block">Total classes</p>
+                        </div>
+                        <div>
+                            <p class="text-center fs-5 mb-1">{{ stat.getAttendanceAvg() }}</p>
+                            <p class="text-secondary text-center d-block">Attendance AVG</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

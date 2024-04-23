@@ -1,0 +1,13 @@
+.subject-attendance-stats__container {
+    width: 100%;
+    display: flex;
+    gap: 2em;
+    flex-wrap: wrap;
+}
+
+.subject-attendance-stats__container > .chart__container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 1000px;
+}

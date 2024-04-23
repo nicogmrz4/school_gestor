@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CourseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CourseRepository::class)]
@@ -23,6 +24,12 @@ class Course
 
     #[ORM\OneToMany(targetEntity: Student::class, mappedBy: 'course')]
     private Collection $students;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    private ?\DateTimeImmutable $startDate = null;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $finishedAt = null;
 
     public function __construct()
     {
@@ -108,6 +115,30 @@ class Course
                 $student->setCourse(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStartDate(): ?\DateTimeImmutable
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate(\DateTimeImmutable $startDate): static
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    public function getFinishedAt(): ?\DateTimeImmutable
+    {
+        return $this->finishedAt;
+    }
+
+    public function setFinishedAt(?\DateTimeImmutable $finishedAt): static
+    {
+        $this->finishedAt = $finishedAt;
 
         return $this;
     }
